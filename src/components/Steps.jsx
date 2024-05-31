@@ -19,6 +19,7 @@ const Steps = ({ activeStep, setActiveStep, steps, isValidForm }) => {
       {steps.map((step, index) => (
         <Step
           key={index}
+          className="hover:cursor-pointer"
           onClick={() => {
             // check if the current form is valid
             if (index < activeStep) {

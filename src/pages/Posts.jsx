@@ -1,41 +1,52 @@
-import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import { Box, SkeletonText } from "@chakra-ui/react";
+import Post from "../components/Post";
+import PostSkeleton from "../components/PostSkeleton";
+
+const fetchPosts = async () => {
+  const response = await fetch("https://codebuddy.review/posts");
+  if (!response.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  const data = await response.json();
+  if (data && Array.isArray(data.data)) {
+    return data.data;
+  } else {
+    throw new Error("Data received is not in the expected format");
+  }
+};
 
 const Posts = () => {
-  return (
-    <div className="rounded-lg bg-gray-50 p-7 text-gray-900 shadow-lg">
-      <h1 className="mb-7 text-4xl font-bold">Posts</h1>
-      <Link to="/" className="mb-4 flex items-center text-blue-600 hover:underline">
-        <Icon icon="mdi:arrow-left" className="mr-2" />
-        Back to Home
-      </Link>
+  const { data: posts, isLoading, error } = useQuery("posts", fetchPosts);
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="rounded-lg bg-white p-7 shadow-lg">
-          <h2 className="text-2xl font-bold">Post 1</h2>
-          <p className="text-gray-700">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo voluptatem, quibusdam,
-            quos, voluptatum voluptas quod quas voluptates quia doloribus nobis voluptatibus. Quam,
-            voluptate voluptatum. Quod, voluptate? Quisquam, voluptate voluptatum.
-          </p>
-        </div>
-        <div className="rounded-lg bg-white p-7 shadow-lg">
-          <h2 className="text-2xl font-bold">Post 2</h2>
-          <p className="text-gray-700">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo voluptatem, quibusdam,
-            quos, voluptatum voluptas quod quas voluptates quia doloribus nobis voluptatibus. Quam,
-            voluptate voluptatum. Quod, voluptate? Quisquam, voluptate voluptatum.
-          </p>
-        </div>
-        <div className="rounded-lg bg-white p-7 shadow-lg">
-          <h2 className="text-2xl font-bold">Post 3</h2>
-          <p className="text-gray-700">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo voluptatem, quibusdam,
-            quos, voluptatum voluptas quod quas voluptates quia doloribus nobis voluptatibus. Quam,
-            voluptate voluptatum. Quod, voluptate? Quisquam, voluptate voluptatum.
-          </p>
-        </div>
+  if (isLoading) {
+    return (
+      <div className="posts-container grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array(6)
+          .fill("")
+          .map((_, index) => (
+            <PostSkeleton key={index} />
+          ))}
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box mt={8} textAlign="center" fontSize="lg" fontWeight="semibold" color="red.500">
+        Error fetching posts:{" "}
+        <SkeletonText noOfLines={1} isLoaded={false}>
+          <span>{error.message}</span>
+        </SkeletonText>
+      </Box>
+    );
+  }
+
+  return (
+    <div className="posts-container mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
   );
 };

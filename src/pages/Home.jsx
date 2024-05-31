@@ -18,9 +18,8 @@ const Home = () => {
         Perspiciatis similique quaerat reiciendis nam aliquam?
       </p>
 
-      <Link to="/posts" className="flex items-center text-blue-600 hover:underline">
-        Posts
-        <Icon icon="mdi:arrow-right" className="ml-2" />
+      <Link to="/form" className=" rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+        Get Started
       </Link>
     </div>
   );

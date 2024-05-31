@@ -1,6 +1,14 @@
 import { Button, Stack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-const ButtonGroup = ({ handleBack, handleNext, handleSave, handleSubmit, activeStep, steps }) => {
+const ButtonGroup = ({
+  handleBack,
+  handleNext,
+  handleSave,
+  handleSubmit,
+  activeStep,
+  steps,
+  isLoading,
+}) => {
   return (
     <Stack className="flex w-full justify-center" direction="row" spacing={5}>
       <Button onClick={handleBack} disabled={activeStep === 0} variant="outline" colorScheme="gray">
@@ -15,7 +23,13 @@ const ButtonGroup = ({ handleBack, handleNext, handleSave, handleSubmit, activeS
         </Button>
       )}
       {activeStep === steps.length - 1 && (
-        <Button onClick={handleSubmit} colorScheme="blue" loadingText="Submitting" variant="solid">
+        <Button
+          onClick={handleSubmit}
+          colorScheme="blue"
+          loadingText="Submitting"
+          variant="solid"
+          isLoading={isLoading}
+        >
           Submit
         </Button>
       )}
@@ -37,6 +51,7 @@ ButtonGroup.propTypes = {
   handleSubmit: PropTypes.func,
   activeStep: PropTypes.number,
   steps: PropTypes.array,
+  isLoading: PropTypes.bool,
 };
 
 export default ButtonGroup;

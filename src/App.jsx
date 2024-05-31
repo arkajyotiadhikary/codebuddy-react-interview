@@ -1,10 +1,13 @@
 import Router from "./Router";
 import { ChakraProvider } from "@chakra-ui/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
   return (
     <ChakraProvider>
-      <Router />
+      <QueryClientProvider client={new QueryClient()}>
+        <Router />
+      </QueryClientProvider>
     </ChakraProvider>
   );
 }

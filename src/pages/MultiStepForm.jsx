@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 import Form1 from "../components/Form1";
 import Form2 from "../components/Form2";
 import Form3 from "../components/Form3";
@@ -46,30 +47,35 @@ const MultiStepForm = () => {
     console.log("Form data saved", formData);
   };
 
-  const handleSubmit = async () => {
-    // validate the form before submission
-    if (isValidForm()) {
-      navigate("/posts");
-    }
+  const { mutate, isLoading } = useMutation(
+    async (submitData) => {
+      const response = await fetch("https://codebuddy.review/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submitData),
+      });
+      return response.json();
+    },
+    {
+      onSuccess: (data) => {
+        if (data.message === "Success") {
+          navigate("/posts");
+        }
+      },
+      onError: (error) => {
+        console.error("Submission error", error);
+      },
+    },
+  );
 
-    // const { ...submitData } = formData;
-    // try {
-    //   const response = await fetch("https://codebuddy.review/submit", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(submitData),
-    //   });
-    //   const result = await response.json();
-    //   if (result.message === "Success") {
-    //     navigate("/posts");
-    //   }
-    // } catch (error) {
-    //   console.error("Submission error", error);
-    // }
+  const handleSubmit = () => {
+    if (isValidForm()) {
+      mutate(formData);
+    }
   };
 
   return (
-    <div className="mt-10 flex flex-col items-center space-y-8 p-4 md:p-8">
+    <div className="mt-10 flex  flex-col items-center space-y-8 p-4 md:p-8">
       <div className="flex w-full flex-col space-y-6 md:max-w-[600px]">
         {/* stepper */}
         <Steps
@@ -96,6 +102,7 @@ const MultiStepForm = () => {
           handleSubmit={handleSubmit}
           activeStep={activeStep}
           steps={steps}
+          isLoading={isLoading}
         />
       </div>
     </div>

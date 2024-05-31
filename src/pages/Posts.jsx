@@ -19,6 +19,7 @@ const fetchPosts = async () => {
 const Posts = () => {
   const { data: posts, isLoading, error } = useQuery("posts", fetchPosts);
 
+  // Skeleton for whole posts
   if (isLoading) {
     return (
       <div className="posts-container grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -31,6 +32,7 @@ const Posts = () => {
     );
   }
 
+  // Error
   if (error) {
     return (
       <Box mt={8} textAlign="center" fontSize="lg" fontWeight="semibold" color="red.500">
@@ -43,7 +45,7 @@ const Posts = () => {
   }
 
   return (
-    <div className="posts-container mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="posts-container my-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}

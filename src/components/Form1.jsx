@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Button,
+} from "@chakra-ui/react";
 
 const Form1 = ({ data, updateData, setValidateFunction }) => {
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -10,6 +19,10 @@ const Form1 = ({ data, updateData, setValidateFunction }) => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   useEffect(() => {
@@ -36,33 +49,44 @@ const Form1 = ({ data, updateData, setValidateFunction }) => {
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
+
     setValidateFunction(() => validate);
   }, [data, setValidateFunction]);
 
   return (
     <div className="flex flex-col items-center space-y-4">
-      <div className="flex flex-col space-y-1">
-        <label className="text-lg">Email:</label>
-        <input
-          type="text"
+      <FormControl isRequired isInvalid={errors.emailId}>
+        <FormLabel className="text-lg">Email:</FormLabel>
+        <Input
+          placeholder="Email"
+          type="email"
           name="emailId"
           value={data.emailId || ""}
           onChange={handleChange}
           className="rounded-md border-2 border-gray-300 px-3 py-2"
         />
         {errors.emailId && <p className="text-sm text-red-500">{errors.emailId}</p>}
-      </div>
-      <div className="flex flex-col space-y-1">
-        <label className="text-lg">Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={data.password || ""}
-          onChange={handleChange}
-          className="rounded-md border-2 border-gray-300 px-3 py-2"
-        />
+      </FormControl>
+      <FormControl isRequired isInvalid={errors.password}>
+        <FormLabel className="text-lg">Password:</FormLabel>
+        <InputGroup size="md">
+          <Input
+            pr="4.5rem"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter password"
+            name="password"
+            value={data.password || ""}
+            onChange={handleChange}
+            className="rounded-md border-2 border-gray-300 px-3 py-2"
+          />
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={togglePasswordVisibility}>
+              {showPassword ? "Hide" : "Show"}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
         {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
-      </div>
+      </FormControl>
     </div>
   );
 };

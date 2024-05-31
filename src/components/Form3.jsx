@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Checkbox,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
+import { PhoneIcon } from "@chakra-ui/icons";
 
 const Form3 = ({ data, updateData, setValidateFunction }) => {
   const [errors, setErrors] = useState({});
@@ -38,44 +48,55 @@ const Form3 = ({ data, updateData, setValidateFunction }) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col space-y-1">
-        <label className="text-lg">Country Code:</label>
-        <select
+      <FormControl isRequired isInvalid={errors.countryCode}>
+        <FormLabel className="text-lg">Country Code:</FormLabel>
+        <Select
+          placeholder="Select Country Code"
           name="countryCode"
           value={data.countryCode || ""}
           onChange={handleChange}
-          className="rounded-md border-2 border-gray-300 px-3 py-2"
+          className="rounded-md border-2 border-gray-300 px-3"
         >
-          <option value="">Select Country Code</option>
           <option value="+91">India (+91)</option>
           <option value="+1">America (+1)</option>
-        </select>
+        </Select>
         {errors.countryCode && <p className="text-red-500">{errors.countryCode}</p>}
-      </div>
-      <div className="flex flex-col space-y-1">
-        <label className="text-lg">Phone Number:</label>
-        <input
-          type="text"
-          name="phoneNumber"
-          value={data.phoneNumber || ""}
-          onChange={handleChange}
-          className="rounded-md border-2 border-gray-300 px-3 py-2"
-        />
+      </FormControl>
+      <FormControl isRequired isInvalid={errors.phoneNumber}>
+        <FormLabel className="text-lg">Phone Number:</FormLabel>
+        <InputGroup>
+          <InputLeftElement pointerEvents="none">
+            <PhoneIcon color="gray.300" />
+          </InputLeftElement>
+          <Input
+            type="tel"
+            name="phoneNumber"
+            value={data.phoneNumber || ""}
+            onChange={handleChange}
+            className="rounded-md border-2 border-gray-300 px-3 py-2"
+            placeholder="Phone number"
+          />
+        </InputGroup>
         {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber}</p>}
-      </div>
-      <div className="flex items-center space-x-2">
-        <input
-          type="checkbox"
+      </FormControl>
+      <FormControl
+        isRequired
+        isInvalid={errors.acceptTermsAndCondition}
+        className="flex items-center space-x-2"
+      >
+        <Checkbox
           name="acceptTermsAndCondition"
-          checked={data.acceptTermsAndCondition || false}
+          isChecked={data.acceptTermsAndCondition || false}
           onChange={handleChange}
           className="h-4 w-4 rounded-md border-gray-300 text-blue-600 shadow-sm focus:border-blue-600 focus:ring-blue-600"
         />
-        <label className="text-lg">Accept Terms and Conditions</label>
-      </div>
-      {errors.acceptTermsAndCondition && (
-        <p className="text-red-500">{errors.acceptTermsAndCondition}</p>
-      )}
+        <FormLabel className="text-lg" marginBottom="0">
+          Accept Terms and Conditions
+        </FormLabel>
+        {errors.acceptTermsAndCondition && (
+          <p className="text-red-500">{errors.acceptTermsAndCondition}</p>
+        )}
+      </FormControl>
     </div>
   );
 };

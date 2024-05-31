@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react";
 
 const Form2 = ({ data, updateData, setValidateFunction }) => {
   const [errors, setErrors] = useState({});
@@ -21,8 +22,10 @@ const Form2 = ({ data, updateData, setValidateFunction }) => {
         newErrors.firstName = "First Name must be alphabetic and between 2 to 50 characters";
       }
 
-      if (data.lastName && !/^[A-Za-z]*$/.test(data.lastName)) {
-        newErrors.lastName = "Last Name must be alphabetic";
+      if (!data.lastName) {
+        newErrors.lastName = "Last Name is required";
+      } else if (!/^[A-Za-z]{2,50}$/.test(data.lastName)) {
+        newErrors.lastName = "Last Name must be alphabetic and between 2 to 50 characters";
       }
 
       if (!data.address) {
@@ -40,9 +43,10 @@ const Form2 = ({ data, updateData, setValidateFunction }) => {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex flex-col space-y-1">
-        <label className="text-lg">First Name:</label>
-        <input
+      <FormControl isRequired isInvalid={errors.firstName}>
+        <FormLabel className="text-lg">First Name:</FormLabel>
+        <Input
+          placeholder="First Name"
           type="text"
           name="firstName"
           value={data.firstName || ""}
@@ -50,10 +54,11 @@ const Form2 = ({ data, updateData, setValidateFunction }) => {
           className="rounded-md border-2 border-gray-300 px-3 py-2"
         />
         {errors.firstName && <p className="text-sm text-red-500">{errors.firstName}</p>}
-      </div>
-      <div className="flex flex-col space-y-1">
-        <label className="text-lg">Last Name:</label>
-        <input
+      </FormControl>
+      <FormControl isRequired isInvalid={errors.lastName}>
+        <FormLabel className="text-lg">Last Name:</FormLabel>
+        <Input
+          placeholder="Last Name"
           type="text"
           name="lastName"
           value={data.lastName || ""}
@@ -61,10 +66,11 @@ const Form2 = ({ data, updateData, setValidateFunction }) => {
           className="rounded-md border-2 border-gray-300 px-3 py-2"
         />
         {errors.lastName && <p className="text-sm text-red-500">{errors.lastName}</p>}
-      </div>
-      <div className="flex flex-col space-y-1">
-        <label className="text-lg">Address:</label>
-        <textarea
+      </FormControl>
+      <FormControl isRequired isInvalid={errors.address}>
+        <FormLabel className="text-lg">Address:</FormLabel>
+        <Textarea
+          placeholder="Address"
           name="address"
           value={data.address || ""}
           onChange={handleChange}
@@ -72,7 +78,7 @@ const Form2 = ({ data, updateData, setValidateFunction }) => {
           className="rounded-md border-2 border-gray-300 px-3 py-2"
         />
         {errors.address && <p className="text-sm text-red-500">{errors.address}</p>}
-      </div>
+      </FormControl>
     </div>
   );
 };

@@ -31,9 +31,15 @@ module.exports = {
   settings: { react: { version: "18.2" } },
   rules: {
     indent: "off",
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": ["error", "windows"],
     quotes: ["error", "double"],
     semi: ["error", "always"],
     "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
 };

@@ -27,7 +27,6 @@ const Form1 = ({ data, updateData, setValidateFunction }) => {
 
   useEffect(() => {
     const validate = () => {
-      console.log("validating...");
       const newErrors = {};
       if (!data.emailId) {
         newErrors.emailId = "Email is required";

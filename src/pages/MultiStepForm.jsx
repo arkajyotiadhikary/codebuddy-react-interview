@@ -1,20 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Stepper,
-  Step,
-  StepIndicator,
-  StepStatus,
-  StepIcon,
-  StepNumber,
-  StepTitle,
-  StepDescription,
-  StepSeparator,
-} from "@chakra-ui/react";
 import Form1 from "../components/Form1";
 import Form2 from "../components/Form2";
 import Form3 from "../components/Form3";
+import ButtonGroup from "../components/ButtonGroup";
+import Steps from "../components/Steps";
 
 const steps = [
   { title: "Contact Info", description: "Email and password" },
@@ -79,31 +69,15 @@ const MultiStepForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-8 p-4 md:p-8">
-      <div className="flex w-full flex-col space-y-4 md:max-w-[600px]">
-        <Stepper className="w-full" size="sm" index={activeStep}>
-          {steps.map((step, index) => (
-            <Step
-              key={index}
-              onClick={() => {
-                setActiveStep(index);
-              }}
-            >
-              <StepIndicator>
-                <StepStatus
-                  complete={<StepIcon />}
-                  incomplete={<StepNumber />}
-                  active={<StepNumber />}
-                />
-              </StepIndicator>
-              <Box flexShrink="0">
-                <StepTitle>{step.title}</StepTitle>
-                <StepDescription>{step.description}</StepDescription>
-              </Box>
-              <StepSeparator />
-            </Step>
-          ))}
-        </Stepper>
+    <div className="mt-10 flex flex-col items-center space-y-8 p-4 md:p-8">
+      <div className="flex w-full flex-col space-y-6 md:max-w-[600px]">
+        {/* stepper */}
+        <Steps
+          activeStep={activeStep}
+          steps={steps}
+          setActiveStep={setActiveStep}
+          isValidForm={isValidForm}
+        />
 
         {activeStep === 0 && (
           <Form1 data={formData} updateData={setFormData} setValidateFunction={setValidators} />
@@ -114,37 +88,15 @@ const MultiStepForm = () => {
         {activeStep === 2 && (
           <Form3 data={formData} updateData={setFormData} setValidateFunction={setValidators} />
         )}
-        <div className="flex justify-center space-x-4">
-          <button
-            onClick={handleBack}
-            disabled={activeStep === 0}
-            className="rounded-md bg-gray-200 px-4 py-2 text-sm md:text-base"
-          >
-            Back
-          </button>
-          <button
-            onClick={handleSave}
-            className="rounded-md bg-blue-500 px-4 py-2 text-sm text-white md:text-base"
-          >
-            Save
-          </button>
-          {activeStep < steps.length - 1 && (
-            <button
-              onClick={handleNext}
-              className="rounded-md bg-blue-500 px-4 py-2 text-sm text-white md:text-base"
-            >
-              Save and Next
-            </button>
-          )}
-          {activeStep === steps.length - 1 && (
-            <button
-              onClick={handleSubmit}
-              className="rounded-md bg-blue-500 px-4 py-2 text-sm text-white md:text-base"
-            >
-              Save
-            </button>
-          )}
-        </div>
+        {/* Buttons */}
+        <ButtonGroup
+          handleBack={handleBack}
+          handleNext={handleNext}
+          handleSave={handleSave}
+          handleSubmit={handleSubmit}
+          activeStep={activeStep}
+          steps={steps}
+        />
       </div>
     </div>
   );

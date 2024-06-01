@@ -51,7 +51,6 @@ const MultiStepForm = () => {
     async (submitData) => {
       const response = await fetch("https://codebuddy.review/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submitData),
       });
       return response.json();
@@ -70,7 +69,8 @@ const MultiStepForm = () => {
 
   const handleSubmit = () => {
     if (isValidForm()) {
-      mutate(formData);
+      const { acceptTermsAndCondition, ...submitData } = formData;
+      acceptTermsAndCondition && mutate(submitData);
     }
   };
 

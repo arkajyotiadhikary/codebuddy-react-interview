@@ -22,10 +22,8 @@ const Form2 = ({ data, updateData, setValidateFunction }) => {
         newErrors.firstName = "First Name must be alphabetic and between 2 to 50 characters";
       }
 
-      if (!data.lastName) {
-        newErrors.lastName = "Last Name is required";
-      } else if (!/^[A-Za-z]{2,50}$/.test(data.lastName)) {
-        newErrors.lastName = "Last Name must be alphabetic and between 2 to 50 characters";
+      if (data.lastName && !/^[A-Za-z]*$/.test(data.lastName)) {
+        newErrors.lastName = "Last Name must be alphabetic";
       }
 
       if (!data.address) {
@@ -55,7 +53,7 @@ const Form2 = ({ data, updateData, setValidateFunction }) => {
         />
         {errors.firstName && <p className="text-sm text-red-500">{errors.firstName}</p>}
       </FormControl>
-      <FormControl isRequired isInvalid={errors.lastName}>
+      <FormControl isInvalid={errors.lastName}>
         <FormLabel className="text-lg">Last Name:</FormLabel>
         <Input
           placeholder="Last Name"

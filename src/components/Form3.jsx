@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import {
   FormControl,
   FormLabel,
-  Input,
   Select,
   Checkbox,
   InputGroup,
   InputLeftElement,
+  Input,
 } from "@chakra-ui/react";
 import { PhoneIcon } from "@chakra-ui/icons";
 
@@ -17,6 +17,7 @@ const Form3 = ({ data, updateData, setValidateFunction }) => {
   useEffect(() => {
     const validate = () => {
       const newErrors = {};
+
       if (!data.countryCode) {
         newErrors.countryCode = "Country Code is required";
       } else if (!["+91", "+1"].includes(data.countryCode)) {
@@ -32,9 +33,11 @@ const Form3 = ({ data, updateData, setValidateFunction }) => {
       if (!data.acceptTermsAndCondition) {
         newErrors.acceptTermsAndCondition = "You must accept the terms and conditions";
       }
+
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
+
     setValidateFunction(() => validate);
   }, [data, setValidateFunction]);
 

@@ -9,8 +9,9 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 const emailRegex = /^\S+@\S+\.\S+$/;
+const passwordRegex =
+  /^(?=(?:.*[A-Z]){2})(?=(?:.*[a-z]){2})(?=(?:.*\d){2})(?=(?:.*[!@#$%^&*]){2})[A-Za-z\d!@#$%^&*]{8,}$/;
 
 const Form1 = ({ data, updateData, setValidateFunction }) => {
   const [errors, setErrors] = useState({});
@@ -41,7 +42,7 @@ const Form1 = ({ data, updateData, setValidateFunction }) => {
         newErrors.password = "Password is required";
       } else if (!passwordRegex.test(data.password)) {
         newErrors.password =
-          "Password must contain at least 8 characters, including uppercase letter, lowercase letter, numbers and special character";
+          "Password must contain at least 8 characters, including at least 2 uppercase letters, 2 lowercase letters, 2 numbers, and 2 special characters";
       }
 
       setErrors(newErrors);

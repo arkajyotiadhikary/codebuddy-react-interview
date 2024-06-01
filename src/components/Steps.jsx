@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 
 const Steps = ({ activeStep, setActiveStep, steps, isValidForm }) => {
   return (
-    <Stepper className="mb-10 w-full" size="md" index={activeStep}>
+    <Stepper className="mb-10 w-full" size={{ base: "sm", lg: "md" }} index={activeStep}>
       {steps.map((step, index) => (
         <Step
           key={index}
@@ -35,7 +35,7 @@ const Steps = ({ activeStep, setActiveStep, steps, isValidForm }) => {
               active={<StepNumber />}
             />
           </StepIndicator>
-          <Box flexShrink="0">
+          <Box flexShrink="0" display={{ base: "none", lg: "block" }}>
             <StepTitle>{step.title}</StepTitle>
             <StepDescription>{step.description}</StepDescription>
           </Box>

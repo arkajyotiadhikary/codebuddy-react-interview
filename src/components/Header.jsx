@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, MenuButton, MenuList, MenuItem, IconButton } from "@chakra-ui/react";
+import { HamburgerIcon, AddIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   return (
     <div className="bg-gradient-to-l from-blue-700 to-blue-900">
       <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
@@ -23,25 +31,23 @@ const Header = () => {
             </Link>
           </div>
           <div className="sm:hidden">
-            <button
-              type="button"
-              className="text-white hover:text-gray-200 focus:text-gray-200 focus:outline-none"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            </button>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<HamburgerIcon />}
+                variant="outline"
+                className=" bg-white hover:bg-blue-600"
+              />
+              <MenuList>
+                <MenuItem icon={<ExternalLinkIcon />} onClick={() => handleNavigation("/posts")}>
+                  Posts
+                </MenuItem>
+                <MenuItem icon={<AddIcon />} onClick={() => handleNavigation("/form")}>
+                  Register
+                </MenuItem>
+              </MenuList>
+            </Menu>
           </div>
         </div>
       </div>

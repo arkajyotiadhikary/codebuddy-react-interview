@@ -31,8 +31,8 @@ const Steps = ({ activeStep, setActiveStep, steps, isValidForm }) => {
           <StepIndicator>
             <StepStatus
               complete={<StepIcon />}
-              incomplete={<StepNumber />}
-              active={<StepNumber />}
+              incomplete={<StepNumber display={{ base: "none", lg: "block" }} />}
+              active={<StepNumber display={{ base: "none", lg: "block" }} />}
             />
           </StepIndicator>
           <Box flexShrink="0" display={{ base: "none", lg: "block" }}>

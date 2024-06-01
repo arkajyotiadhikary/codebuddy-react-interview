@@ -14,7 +14,9 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <div className="text-sm text-gray-400">&copy; {new Date().getFullYear()} CodeBuddy</div>
+          <div className="text-end text-sm text-gray-400">
+            &copy; {new Date().getFullYear()}CodeBuddy
+          </div>
         </div>
       </div>
     </footer>
